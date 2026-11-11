@@ -1,0 +1,1511 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cannabinoids 101: An Immersive Atmospheric Masterclass Reader</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          cosmos: {
+            bg: '#070b19',
+            panel: '#0f172e',
+            border: 'rgba(255,255,255,0.08)',
+            accent: '#38bdf8',
+            accent2: '#34d399',
+            glow: 'rgba(56, 189, 248, 0.15)'
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #070b19;
+    --panel-bg: rgba(15, 23, 46, 0.78);
+    --panel-solid: #0f172e;
+    --border-color: rgba(255, 255, 255, 0.09);
+    --text-main: #e9eefc;
+    --text-muted: #94a3b8;
+    --accent-primary: #38bdf8;
+    --accent-secondary: #34d399;
+    --accent-warn: #fbbf24;
+    --glow-color: rgba(56, 189, 248, 0.15);
+  }
+
+  body.theme-forest {
+    --bg-main: #05140d;
+    --panel-bg: rgba(10, 31, 21, 0.82);
+    --panel-solid: #0a1f15;
+    --border-color: rgba(52, 211, 153, 0.14);
+    --accent-primary: #34d399;
+    --accent-secondary: #a7f3d0;
+    --glow-color: rgba(52, 211, 153, 0.15);
+  }
+
+  body.theme-emerald {
+    --bg-main: #06111a;
+    --panel-bg: rgba(10, 28, 44, 0.82);
+    --panel-solid: #0a1c2c;
+    --border-color: rgba(45, 212, 191, 0.14);
+    --accent-primary: #2dd4bf;
+    --accent-secondary: #818cf8;
+    --glow-color: rgba(45, 212, 191, 0.15);
+  }
+
+  *{ box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+  }
+
+  /* Canvas background */
+  #ecsCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Glass Panels */
+  .glass-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+  }
+
+  .interactive-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .interactive-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--glow-color);
+  }
+
+  /* Glossary Term Styling */
+  .gloss-term {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-primary);
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 4px;
+    cursor: pointer;
+    padding: 0 4px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .gloss-term:hover {
+    background: var(--glow-color);
+    color: #ffffff;
+  }
+
+  /* Hotspot Pin Animation */
+  @keyframes pinPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 14px currentColor; }
+  }
+  .animate-pin {
+    animation: pinPulse 2.5s infinite ease-in-out;
+  }
+
+  /* Modal Smooth Transitions */
+  .modal-backdrop {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+  }
+  .modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-card {
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-backdrop.active .modal-card {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Custom Range Slider */
+  input[type=range] {
+    -webkit-appearance: none;
+    background: transparent;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #fbbf24;
+    cursor: pointer;
+    margin-top: -7px;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #334155;
+    border-radius: 3px;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.6);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.6);
+  }
+</style>
+</head>
+<body class="relative min-h-screen text-slate-100 selection:bg-sky-500 selection:text-white">
+
+  <!-- Background Synapse Canvas -->
+  <canvas id="ecsCanvas"></canvas>
+
+  <!-- Global Mastery / Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 bg-slate-800/80 z-50">
+    <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-400 transition-all duration-150"></div>
+  </div>
+
+  <!-- STICKY TOP MODULE NAV BAR -->
+  <nav class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-white/10 px-4 py-2.5">
+    <div class="max-w-6xl mx-auto flex items-center justify-between text-xs overflow-x-auto whitespace-nowrap gap-4 no-scrollbar">
+      <div class="flex items-center gap-2 font-black text-sky-400 text-sm">
+        <span class="w-6 h-6 rounded-lg bg-sky-500/20 flex items-center justify-center border border-sky-400/40">⚡</span>
+        <span class="hidden sm:inline text-white tracking-tight">CANNABINOIDS <span class="text-sky-400">101</span></span>
+      </div>
+      
+      <div class="flex items-center gap-1 font-semibold text-slate-400" id="levelNavContainer">
+        <a href="#level-1" class="px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5 text-sky-300 bg-sky-500/10 border border-sky-500/20">
+          <span>L1</span> Fundamentals & ECS
+        </a>
+        <a href="#level-2" class="px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5">
+          <span>L2</span> Pharmacokinetics & Routes
+        </a>
+        <a href="#level-3" class="px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5">
+          <span>L3</span> Terpenes & Synergy
+        </a>
+        <a href="#level-4" class="px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5">
+          <span>L4</span> CYP450 Drug Safety
+        </a>
+        <a href="#glossary-quiz" class="px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5">
+          <span>📚</span> Glossary & Quiz
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Sticky Toolbar (Customization & Audio) -->
+  <aside class="fixed bottom-5 right-5 z-40 flex flex-col gap-2 items-end">
+    <div id="controlsMenu" class="hidden glass-panel p-4 rounded-2xl flex flex-col gap-3 min-w-[260px] mb-2 shadow-2xl border border-white/10">
+      <div class="flex items-center justify-between pb-2 border-b border-white/10">
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Atmosphere Settings</span>
+        <button id="closeControlsBtn" class="text-slate-400 hover:text-white text-lg font-bold px-1">&times;</button>
+      </div>
+      
+      <div>
+        <label class="text-xs text-slate-300 block mb-1 font-medium">Visual Theme</label>
+        <div class="grid grid-cols-3 gap-1 bg-slate-900/80 p-1 rounded-xl">
+          <button data-theme="cosmos" class="theme-btn text-xs py-1.5 px-2 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-400/30">Cosmos</button>
+          <button data-theme="forest" class="theme-btn text-xs py-1.5 px-2 rounded-lg hover:bg-white/5 text-slate-400">Forest</button>
+          <button data-theme="emerald" class="theme-btn text-xs py-1.5 px-2 rounded-lg hover:bg-white/5 text-slate-400">Emerald</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-xs text-slate-300 mb-1 font-medium">
+          <span>Text Scale</span>
+          <span id="fontSizeLabel">Medium</span>
+        </div>
+        <div class="flex gap-1 bg-slate-900/80 p-1 rounded-xl">
+          <button id="fontSm" class="flex-1 text-xs py-1 rounded-lg hover:bg-white/10 text-slate-300">Small</button>
+          <button id="fontMd" class="flex-1 text-xs py-1 rounded-lg bg-sky-500/20 text-sky-300">Default</button>
+          <button id="fontLg" class="flex-1 text-xs py-1 rounded-lg hover:bg-white/10 text-slate-300">Large</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex justify-between text-xs text-slate-300 mb-1 font-medium">
+          <span>Ambient Synth Tone</span>
+          <span id="synthFreqDisplay" class="font-mono text-sky-400">110 Hz</span>
+        </div>
+        <input type="range" id="synthFreqSlider" min="55" max="220" value="110" step="1" class="w-full">
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-slate-300 pt-1">
+        <span>Canvas Synapse Nodes</span>
+        <button id="toggleParticlesBtn" class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-lg font-medium">ON</button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button id="audioToggleBtn" class="interactive-btn glass-panel p-3 rounded-full flex items-center justify-center text-slate-300 hover:text-sky-400 border border-white/10 shadow-lg" title="Toggle Ambient Audio Synth" aria-label="Toggle Audio">
+        <svg id="audioOffIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+        <svg id="audioOnIcon" class="w-5 h-5 hidden text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+      </button>
+
+      <button id="openControlsBtn" class="interactive-btn glass-panel p-3 rounded-full flex items-center justify-center text-slate-300 hover:text-sky-400 border border-white/10 shadow-lg" title="Settings" aria-label="Settings">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Container -->
+  <main id="mainContent" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-12">
+
+    <!-- HERO MASTERCLASS DASHBOARD BANNER -->
+    <section class="glass-panel p-6 sm:p-10 rounded-3xl relative overflow-hidden border border-white/10">
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-sky-500/10 text-sky-300 border border-sky-400/30">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span> Interactive Masterclass Reader
+          </span>
+          <span class="text-xs text-slate-400 font-mono">4 Mastery Levels &bull; Pharmacokinetics &bull; CYP450 Safety Matrix</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
+          Cannabinoid Science, <span class="bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-300 bg-clip-text text-transparent">Mastered.</span>
+        </h1>
+        <p class="text-slate-300 text-base sm:text-lg max-w-3xl leading-relaxed mb-6">
+          Welcome to an immersive visual blueprint detailing the human Endocannabinoid System (ECS), plant phytocannabinoids, liver pharmacokinetics, terpene entourage synergy, and clinical safety.
+        </p>
+
+        <!-- CORE RICH CONCEPT BADGES -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+          <button data-rich-concept="cb1" class="rich-concept-btn interactive-btn text-left p-3.5 rounded-2xl bg-slate-900/90 border border-sky-500/30 hover:border-sky-400 group shadow-lg">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-black text-sky-400 uppercase tracking-wider">CB1 Receptor</span>
+              <span class="text-xs text-slate-400 group-hover:text-white">&rarr;</span>
+            </div>
+            <div class="text-sm font-bold text-white group-hover:text-sky-200">🧠 Neural & Mind</div>
+            <div class="text-[11px] text-slate-400 mt-1">Brain & Central Nervous System</div>
+          </button>
+
+          <button data-rich-concept="cb2" class="rich-concept-btn interactive-btn text-left p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-400 group shadow-lg">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-black text-emerald-400 uppercase tracking-wider">CB2 Receptor</span>
+              <span class="text-xs text-slate-400 group-hover:text-white">&rarr;</span>
+            </div>
+            <div class="text-sm font-bold text-white group-hover:text-emerald-200">🛡️ Immune & Tissue</div>
+            <div class="text-[11px] text-slate-400 mt-1">Spleen, Organs & Immunity</div>
+          </button>
+
+          <button data-rich-concept="phyto" class="rich-concept-btn interactive-btn text-left p-3.5 rounded-2xl bg-slate-900/90 border border-indigo-500/30 hover:border-indigo-400 group shadow-lg">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-black text-indigo-400 uppercase tracking-wider">Phytocannabinoids</span>
+              <span class="text-xs text-slate-400 group-hover:text-white">&rarr;</span>
+            </div>
+            <div class="text-sm font-bold text-white group-hover:text-indigo-200">🌿 Plant Molecules</div>
+            <div class="text-[11px] text-slate-400 mt-1">THC, CBD, CBG, CBN, THCV</div>
+          </button>
+
+          <button data-rich-concept="decarb" class="rich-concept-btn interactive-btn text-left p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 hover:border-amber-400 group shadow-lg">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Decarboxylation</span>
+              <span class="text-xs text-slate-400 group-hover:text-white">&rarr;</span>
+            </div>
+            <div class="text-sm font-bold text-white group-hover:text-amber-200">⚡ Thermal Shift</div>
+            <div class="text-[11px] text-slate-400 mt-1">Heat activates raw THCA &rarr; THC</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 1: FUNDAMENTALS & THE ECS NETWORK -->
+    <section id="level-1" class="space-y-8">
+      <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+        <span class="px-3 py-1 rounded-xl bg-sky-500/20 text-sky-300 font-black text-xs border border-sky-400/30">LEVEL 1</span>
+        <h2 class="text-2xl font-black text-white">Fundamentals & The ECS Network</h2>
+      </div>
+
+      <!-- Module 1.1: Body Hotspot Map & Receptor Explorer -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div>
+            <span class="text-xs font-black uppercase tracking-widest text-sky-400 block mb-1">Anatomy Hotspots</span>
+            <h3 class="text-xl font-bold text-white">Interactive ECS Body Pins & Receptor Targets</h3>
+          </div>
+          <p class="text-xs text-slate-400 max-w-sm">
+            Click glowing pins on the silhouette or receptor cards to open detailed anatomical breakdowns.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <!-- Body Silhouette SVG Hotspot Map -->
+          <div class="lg:col-span-5 relative flex justify-center py-4 bg-slate-950/60 rounded-3xl border border-white/10 p-6">
+            <div class="relative w-full max-w-[260px]">
+              <svg viewBox="0 0 200 400" class="w-full h-auto drop-shadow-2xl">
+                <!-- Head -->
+                <circle cx="100" cy="45" r="28" fill="#1e293b" stroke="#38bdf8" stroke-width="2" opacity="0.8"/>
+                <!-- Neck & Torso -->
+                <path d="M85 73 L115 73 L135 120 L135 240 L65 240 L65 120 Z" fill="#1e293b" stroke="#34d399" stroke-width="2" opacity="0.8"/>
+                <!-- Arms -->
+                <path d="M65 120 L35 210 L50 215 L73 140" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                <path d="M135 120 L165 210 L150 215 L127 140" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                <!-- Legs -->
+                <path d="M65 240 L70 370 L92 370 L95 240" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                <path d="M135 240 L130 370 L108 370 L105 240" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+
+                <!-- Connection Lines -->
+                <line x1="100" y1="45" x2="150" y2="35" stroke="#38bdf8" stroke-dasharray="3,3" opacity="0.7"/>
+                <line x1="100" y1="110" x2="160" y2="105" stroke="#818cf8" stroke-dasharray="3,3" opacity="0.7"/>
+                <line x1="100" y1="165" x2="40" y2="175" stroke="#34d399" stroke-dasharray="3,3" opacity="0.7"/>
+                <line x1="100" y1="200" x2="160" y2="215" stroke="#2dd4bf" stroke-dasharray="3,3" opacity="0.7"/>
+              </svg>
+
+              <!-- HOTSPOT PINS -->
+              <button data-rich-concept="cb1" class="absolute top-[9%] left-[46%] -translate-x-1/2 w-7 h-7 rounded-full bg-sky-500/80 text-white font-bold text-xs flex items-center justify-center border-2 border-white shadow-lg animate-pin cursor-pointer" title="Brain & Central Nervous System (CB1)">
+                🧠
+              </button>
+              <button data-rich-concept="cb1" class="absolute top-[26%] left-[46%] -translate-x-1/2 w-6 h-6 rounded-full bg-indigo-500/80 text-white font-bold text-xs flex items-center justify-center border-2 border-white shadow-lg cursor-pointer hover:scale-125 transition-transform" title="Spine & Nerve Pathways">
+                ⚡
+              </button>
+              <button data-rich-concept="cb2" class="absolute top-[40%] left-[36%] -translate-x-1/2 w-7 h-7 rounded-full bg-emerald-500/80 text-white font-bold text-xs flex items-center justify-center border-2 border-white shadow-lg animate-pin cursor-pointer" title="Immune Tissue & Spleen (CB2)">
+                🛡️
+              </button>
+              <button data-rich-concept="cb2" class="absolute top-[52%] left-[54%] -translate-x-1/2 w-6 h-6 rounded-full bg-teal-500/80 text-white font-bold text-xs flex items-center justify-center border-2 border-white shadow-lg cursor-pointer hover:scale-125 transition-transform" title="Gut Epithelium & Digestion">
+                🧬
+              </button>
+            </div>
+          </div>
+
+          <!-- Receptor Info Cards -->
+          <div class="lg:col-span-7 space-y-4">
+            <div data-rich-concept="cb1" class="rich-concept-btn p-5 rounded-2xl bg-slate-900/90 border-2 border-sky-500/40 cursor-pointer transition-all hover:shadow-xl hover:shadow-sky-500/20 group">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-black text-base border border-sky-500/30">CB1</span>
+                  <div>
+                    <h4 class="font-extrabold text-white text-base group-hover:text-sky-300">CB1 Receptors &bull; Central Nervous System</h4>
+                    <span class="text-xs text-sky-400 font-semibold">Brain &bull; Cortex &bull; Cerebellum &bull; Hippocampus</span>
+                  </div>
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 font-bold">Deep Map &rarr;</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                Functions as retrograde synaptic brakes. <button class="gloss-term" data-term="THC">THC</button> binds directly here to suppress neurotransmitter release, inducing intoxicating & therapeutic neural shifts.
+              </p>
+              <div class="flex flex-wrap gap-1.5 text-[11px] font-mono">
+                <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">THC (High Affinity)</span>
+                <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Anandamide (Internal)</span>
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400">Sparse in Brainstem (No Fatal Respiratory Arrest)</span>
+              </div>
+            </div>
+
+            <div data-rich-concept="cb2" class="rich-concept-btn p-5 rounded-2xl bg-slate-900/90 border-2 border-emerald-500/40 cursor-pointer transition-all hover:shadow-xl hover:shadow-emerald-500/20 group">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-base border border-emerald-500/30">CB2</span>
+                  <div>
+                    <h4 class="font-extrabold text-white text-base group-hover:text-emerald-300">CB2 Receptors &bull; Peripheral Immune Sentinel</h4>
+                    <span class="text-xs text-emerald-400 font-semibold">Spleen &bull; Microglia &bull; White Blood Cells &bull; Gut</span>
+                  </div>
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 font-bold">Deep Map &rarr;</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                Modulates immune inflammatory responses without mental intoxication. Downregulates pro-inflammatory cytokines (TNF-α, IL-6).
+              </p>
+              <div class="flex flex-wrap gap-1.5 text-[11px] font-mono">
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">2-AG (Internal Agonist)</span>
+                <span class="px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">CBC & CBG (Modulators)</span>
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400">Non-Psychoactive Target</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 1.2: Phytocannabinoids Comparison Matrix & Decarb Slider -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Matrix Cards -->
+        <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs font-black uppercase tracking-widest text-emerald-400 block mb-0.5">Botanical Profiler</span>
+              <h3 class="text-xl font-bold text-white">Phytocannabinoid Matrix</h3>
+            </div>
+            <span class="text-xs text-slate-400">6 Core Compounds</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="infographicMatrixCards">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Decarb Slider -->
+        <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-3xl space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+              <div>
+                <span class="text-xs font-black uppercase tracking-widest text-amber-400 block mb-0.5">Thermal Shift</span>
+                <h3 class="text-xl font-bold text-white">Decarboxylation Gauge</h3>
+              </div>
+              <span id="tempValueDisplay" class="text-xl font-black text-amber-400 font-mono">230°F</span>
+            </div>
+
+            <div class="space-y-4">
+              <input type="range" id="decarbTempSlider" min="70" max="320" value="230" step="5" class="w-full">
+              <div class="flex justify-between text-[11px] font-mono text-slate-500">
+                <span>70°F (Raw)</span>
+                <span>220°F (Optimal)</span>
+                <span>320°F (Degraded)</span>
+              </div>
+
+              <div id="decarbStatusBox" class="p-4 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-200 space-y-1">
+                <div class="font-bold text-xs flex items-center justify-between">
+                  <span id="decarbStatusTitle">🔥 Optimal Decarboxylation Window</span>
+                  <span id="decarbPercentBadge" class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[10px] font-mono font-bold">98% Converted</span>
+                </div>
+                <p id="decarbStatusDesc" class="text-xs text-slate-300 leading-relaxed">
+                  Heat-driven loss of CO₂ transforms inactive THCA into active, bioavailable THC.
+                </p>
+              </div>
+
+              <div class="space-y-2 text-xs font-mono pt-2">
+                <div>
+                  <div class="flex justify-between text-slate-400 mb-0.5">
+                    <span>Raw THCA</span>
+                    <span id="thcaBarVal">2%</span>
+                  </div>
+                  <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="thcaBar" class="h-full bg-slate-500 transition-all duration-300" style="width: 2%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sky-300 mb-0.5">
+                    <span>Active THC</span>
+                    <span id="thcBarVal">98%</span>
+                  </div>
+                  <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="thcBar" class="h-full bg-sky-400 transition-all duration-300" style="width: 98%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-amber-400 mb-0.5">
+                    <span>Aged CBN</span>
+                    <span id="cbnBarVal">0%</span>
+                  </div>
+                  <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="cbnBar" class="h-full bg-amber-500 transition-all duration-300" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 2: PHARMACOKINETICS & CONSUMPTION ROUTES -->
+    <section id="level-2" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+      <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+        <span class="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-black text-xs border border-emerald-400/30">LEVEL 2</span>
+        <h2 class="text-2xl font-black text-white">Pharmacokinetics & Consumption Routes</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Interactive Route Simulator Controls -->
+        <div class="lg:col-span-5 space-y-4">
+          <h3 class="text-lg font-bold text-white">Select Consumption Route</h3>
+          <div class="grid grid-cols-2 gap-2" id="routeSelectorGroup">
+            <button data-route="inhalation" class="route-btn p-3 rounded-2xl bg-sky-500/20 border-2 border-sky-400 text-sky-300 font-bold text-xs text-left">
+              💨 Inhalation (Vape/Smoke)
+            </button>
+            <button data-route="edible" class="route-btn p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs text-left">
+              🍬 Oral Edible (Ingestion)
+            </button>
+            <button data-route="sublingual" class="route-btn p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs text-left">
+              💧 Sublingual (Tincture)
+            </button>
+            <button data-route="topical" class="route-btn p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs text-left">
+              🧴 Topical Transdermal
+            </button>
+          </div>
+
+          <!-- Dynamic Route Bio Info Box -->
+          <div id="routeBioCard" class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3">
+            <div class="flex justify-between items-center">
+              <span id="routeNameDisplay" class="font-black text-sky-400 text-sm">💨 Inhalation Pathway</span>
+              <span id="routeOnsetBadge" class="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 text-xs font-mono font-bold">Onset: 1-5 Mins</span>
+            </div>
+            <p id="routeDescDisplay" class="text-xs text-slate-300 leading-relaxed">
+              Cannabinoids enter pulmonary capillaries directly into systemic arterial blood. Bypasses first-pass liver metabolism, yielding rapid high plasma concentration spikes.
+            </p>
+            <div class="pt-2 border-t border-white/10 grid grid-cols-2 gap-2 text-[11px] font-mono">
+              <div><span class="text-slate-400">Peak Plasma:</span> <strong id="routePeakDisplay" class="text-white">10-15 Mins</strong></div>
+              <div><span class="text-slate-400">Duration:</span> <strong id="routeDurationDisplay" class="text-white">2-4 Hours</strong></div>
+              <div><span class="text-slate-400">Primary Metabolite:</span> <strong id="routeMetaboliteDisplay" class="text-sky-300">Delta-9-THC</strong></div>
+              <div><span class="text-slate-400">Bioavailability:</span> <strong id="routeBioavailDisplay" class="text-emerald-400">10-35%</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Plasma Curve Visualizer SVG -->
+        <div class="lg:col-span-7 bg-slate-950/70 p-6 rounded-3xl border border-white/10 space-y-4 flex flex-col justify-between">
+          <div class="flex justify-between items-center">
+            <h4 class="text-sm font-bold text-white">Plasma Concentration vs. Time Curve (0 - 8 Hours)</h4>
+            <span class="text-xs text-slate-400 font-mono">Pharmacokinetic Simulation</span>
+          </div>
+
+          <div class="relative w-full h-48 bg-slate-900/80 rounded-2xl p-4 border border-white/5 flex items-end">
+            <!-- Dynamic SVG Curve Path -->
+            <svg viewBox="0 0 400 150" class="w-full h-full overflow-visible" preserveAspectRatio="none">
+              <!-- Grid Lines -->
+              <line x1="0" y1="30" x2="400" y2="30" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4,4"/>
+              <line x1="0" y1="75" x2="400" y2="75" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4,4"/>
+              <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4,4"/>
+
+              <!-- Interactive Animated Path -->
+              <path id="plasmaCurvePath" d="M 0 140 Q 20 10, 80 50 T 400 140" fill="none" stroke="#38bdf8" stroke-width="4" class="transition-all duration-700 ease-in-out"/>
+            </svg>
+          </div>
+
+          <div class="flex justify-between text-[11px] font-mono text-slate-400">
+            <span>0 hrs (Dose)</span>
+            <span>2 hrs</span>
+            <span>4 hrs</span>
+            <span>6 hrs</span>
+            <span>8 hrs</span>
+          </div>
+
+          <!-- 11-Hydroxy-THC Special Mechanism Callout -->
+          <div class="p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 text-xs leading-relaxed">
+            🧠 <strong>Hepatic First-Pass Conversion:</strong> When ingested orally, liver CYP2C9 enzymes convert Delta-9-THC into <strong>11-Hydroxy-THC</strong>, a metabolite that crosses the blood-brain barrier substantially faster and exerts significantly higher psychoactive potency.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 3: TERPENE ECOSYSTEM & ENTOURAGE SYNERGY -->
+    <section id="level-3" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+      <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+        <span class="px-3 py-1 rounded-xl bg-indigo-500/20 text-indigo-300 font-black text-xs border border-indigo-400/30">LEVEL 3</span>
+        <h2 class="text-2xl font-black text-white">Terpene Ecosystem & Entourage Synergy</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Interactive Terpene Wheel Buttons -->
+        <div class="lg:col-span-5 space-y-4">
+          <h3 class="text-lg font-bold text-white">Select Aromatic Terpene</h3>
+          <div class="space-y-2" id="terpeneGroup">
+            <button data-terp="myrcene" class="terp-btn w-full p-3.5 rounded-2xl bg-amber-500/20 border-2 border-amber-400 text-amber-300 font-bold text-xs flex justify-between items-center transition-all">
+              <span>🌿 Myrcene (Herbal & Mango)</span>
+              <span class="text-[10px] font-mono bg-amber-500/30 px-2 py-0.5 rounded">Sedative / BBB Permeability</span>
+            </button>
+            <button data-terp="caryophyllene" class="terp-btn w-full p-3.5 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs flex justify-between items-center transition-all">
+              <span>🌶️ Beta-Caryophyllene (Peppery)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded">Direct CB2 Agonist</span>
+            </button>
+            <button data-terp="limonene" class="terp-btn w-full p-3.5 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs flex justify-between items-center transition-all">
+              <span>🍋 Limonene (Citrus)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded">Mood & Serotonin Modulation</span>
+            </button>
+            <button data-terp="linalool" class="terp-btn w-full p-3.5 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs flex justify-between items-center transition-all">
+              <span>🪻 Linalool (Floral Lavender)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded">Anxiolytic / GABA Modulation</span>
+            </button>
+            <button data-terp="pinene" class="terp-btn w-full p-3.5 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs flex justify-between items-center transition-all">
+              <span>🌲 Alpha-Pinene (Pine Needle)</span>
+              <span class="text-[10px] font-mono bg-slate-800 px-2 py-0.5 rounded">AChE Inhibitor / Focus</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terpene Entourage Synergy Details -->
+        <div class="lg:col-span-7 bg-slate-950/70 p-6 rounded-3xl border border-white/10 space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-3">
+              <h4 id="terpNameTitle" class="text-xl font-extrabold text-amber-300">Myrcene &bull; Herbal & Earthy</h4>
+              <span id="terpBoilDisplay" class="text-xs font-mono px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30">Boiling Point: 334°F (168°C)</span>
+            </div>
+
+            <div class="space-y-3 text-xs leading-relaxed">
+              <p id="terpBioDesc" class="text-slate-300">
+                Enhances blood-brain barrier permeability, allowing cannabinoids like THC to cross more rapidly into brain tissue.
+              </p>
+
+              <div class="p-4 rounded-2xl bg-slate-900 border border-white/10 space-y-2">
+                <strong class="text-sky-300 block font-bold text-sm">🔄 Entourage Synergy Matrix</strong>
+                <p id="terpSynergyText" class="text-slate-300">
+                  Combined with THC, Myrcene amplifies motor relaxation and sedating couch-lock properties.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/10 text-[11px] text-slate-400 flex justify-between">
+            <span>Aromatic Terpenoid Science</span>
+            <span>Synergistic Receptor Binding</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 4: CYP450 DRUG CHECKER & SAFETY SPECTRUM -->
+    <section id="level-4" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+      <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+        <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-black text-xs border border-amber-400/30">LEVEL 4</span>
+        <h2 class="text-2xl font-black text-white">CYP450 Drug Checker & Binding Safety</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Interactive Drug Checker -->
+        <div class="lg:col-span-6 space-y-4">
+          <h3 class="text-lg font-bold text-white flex items-center justify-between">
+            <span>💊 CYP450 Drug Interaction Checker</span>
+            <span class="text-xs font-mono text-amber-400">Enzyme Competition</span>
+          </h3>
+
+          <div class="space-y-2">
+            <label class="text-xs text-slate-400 font-medium block">Select Pharmaceutical Class:</label>
+            <select id="drugCheckerSelect" class="w-full bg-slate-900 text-slate-100 text-xs p-3 rounded-2xl border border-white/15 focus:outline-none focus:border-amber-400">
+              <option value="warfarin">Blood Thinners (e.g. Warfarin / Coumadin)</option>
+              <option value="clobazam">Anti-Epileptics (e.g. Clobazam / Onfi)</option>
+              <option value="ssri">Antidepressants / SSRIs (e.g. Sertraline / Zoloft)</option>
+              <option value="statin">Statins & Blood Pressure (e.g. Atorvastatin)</option>
+              <option value="sedative">Sedatives / Benzodiazepines (e.g. Xanax)</option>
+            </select>
+          </div>
+
+          <!-- Dynamic Drug Risk Card -->
+          <div id="drugRiskBox" class="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 space-y-2">
+            <div class="flex justify-between items-center">
+              <strong id="drugRiskTitle" class="text-sm font-bold">⚠️ Warfarin & Blood Thinners</strong>
+              <span id="drugRiskLevel" class="px-2 py-0.5 rounded bg-rose-500 text-white font-mono text-[10px] font-bold">High Interaction Risk</span>
+            </div>
+            <p id="drugRiskDesc" class="text-xs text-slate-300 leading-relaxed">
+              CBD competitively inhibits <strong>CYP2C9</strong> enzymes responsible for breaking down Warfarin. This slows clearance, leading to elevated blood concentrations and increased internal bleeding risk.
+            </p>
+          </div>
+        </div>
+
+        <!-- Binding Affinity & Synthetic Full Agonist Spectrum -->
+        <div class="lg:col-span-6 space-y-4 bg-slate-950/70 p-6 rounded-3xl border border-white/10">
+          <h3 class="text-lg font-bold text-white flex items-center justify-between">
+            <span>⚖️ Plant Agonists vs. Synthetic Full Agonists</span>
+          </h3>
+
+          <div class="space-y-3 text-xs leading-relaxed">
+            <div class="p-3.5 rounded-xl bg-sky-500/10 border border-sky-400/20 text-sky-200">
+              <strong>Plant Partial Agonists (THC):</strong> Natural plant-derived THC acts as a <em>partial agonist</em> at CB1. It has built-in signaling ceilings that limit maximal receptor activation, preventing fatal overdose.
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200">
+              <strong>Synthetic Full Agonists ("Spice" / K2):</strong> Lab-created synthetic cannabinoids bind CB1 as <em>full agonists</em> with 100x potency. They rapidly desensitize receptors, triggering severe cardiac arrhythmia, seizures, and toxic psychosis.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 5: SEARCHABLE GLOSSARY & KNOWLEDGE CHECKPOINT -->
+    <section id="glossary-quiz" class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-sky-400 block mb-1">Interactive Reference</span>
+          <h2 class="text-2xl font-extrabold text-white">Searchable Glossary & Knowledge Check</h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative min-w-[240px]">
+          <input type="text" id="glossarySearchInput" placeholder="Search terms (e.g. CB1, Decarb)..." 
+                 class="w-full bg-slate-900/90 text-slate-100 placeholder-slate-500 text-xs px-4 py-2.5 rounded-xl border border-white/15 focus:outline-none focus:border-sky-400 transition-colors">
+          <span class="absolute right-3 top-2.5 text-slate-500 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="flex flex-wrap gap-2" id="glossaryCategoryFilters">
+        <button data-cat="all" class="gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30">All Terms</button>
+        <button data-cat="plant" class="gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-slate-200">Plant-Derived</button>
+        <button data-cat="body" class="gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-slate-200">Body-Made (Endo)</button>
+        <button data-cat="receptors" class="gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-slate-200">Receptors</button>
+        <button data-cat="concepts" class="gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-slate-200">Concepts</button>
+      </div>
+
+      <!-- Glossary Grid -->
+      <div id="glossaryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- QUIZ CONTAINER -->
+      <div class="mt-8 pt-6 border-t border-white/10 space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          🧪 Masterclass Checkpoint Quiz
+        </h3>
+        <div id="quizContainer" class="space-y-4">
+          <div class="quiz-q bg-slate-900/70 p-4 rounded-2xl border border-white/10" data-correct="1">
+            <p class="text-xs font-semibold text-slate-200 mb-2">1. Which receptor is concentrated in the central nervous system and directly bound by THC?</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="0">A) CB2 Receptor</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="1">B) CB1 Receptor</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="2">C) FAAH Enzyme</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="3">D) TRPV1</button>
+            </div>
+            <div class="quiz-feedback hidden mt-2 p-2.5 rounded-xl text-xs font-bold"></div>
+          </div>
+
+          <div class="quiz-q bg-slate-900/70 p-4 rounded-2xl border border-white/10" data-correct="2">
+            <p class="text-xs font-semibold text-slate-200 mb-2">2. What potent metabolite is formed in the liver during first-pass edible ingestion?</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="0">A) Delta-8-THC</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="1">B) THCA-Synthase</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="2">C) 11-Hydroxy-THC</button>
+              <button class="quiz-opt text-left text-xs p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300" data-idx="3">D) Cannabinol (CBN)</button>
+            </div>
+            <div class="quiz-feedback hidden mt-2 p-2.5 rounded-xl text-xs font-bold"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center text-xs text-slate-500 py-4">
+      Cannabinoids 101 Interactive Visual Blueprint &bull; Masterclass Educational Platform
+    </footer>
+  </main>
+
+  <!-- ACCESSIBLE MODAL DIALOG -->
+  <div id="glossaryModal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-card w-full max-w-2xl glass-panel p-6 sm:p-8 rounded-3xl relative border border-white/15 shadow-2xl my-8">
+      <button id="closeModalBtn" class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl font-bold w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors" aria-label="Close modal">&times;</button>
+      
+      <span id="modalCategoryTag" class="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 text-[11px] font-bold uppercase tracking-wider mb-2 inline-block">Term Definition</span>
+      <h3 id="modalTitle" class="text-2xl sm:text-3xl font-bold text-white mb-3">Term Title</h3>
+      
+      <div id="modalTabs" class="hidden flex border-b border-white/10 mb-4 gap-2 text-xs font-bold">
+        <!-- Tabs rendered dynamically -->
+      </div>
+
+      <div id="modalBody" class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+        <!-- Body injected dynamically -->
+      </div>
+
+      <div class="pt-4 border-t border-white/10 flex justify-between items-center text-xs text-slate-400">
+        <span>Press ESC to exit</span>
+        <button id="modalGotItBtn" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition-colors">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       BACKGROUND SYNAPSE CANVAS ANIMATION
+       ========================================================================== */
+    const canvas = document.getElementById('ecsCanvas');
+    const ctx = canvas.getContext('2d');
+    let particlesEnabled = true;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = [];
+    for(let i = 0; i < 50; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 2 + 1
+      });
+    }
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (particlesEnabled) {
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 140) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+    /* ==========================================================================
+       WEB AUDIO AMBIENT DRONE & FREQUENCY SLIDER
+       ========================================================================== */
+    let audioCtx = null;
+    let isPlayingAudio = false;
+    let osc1, osc2, gainNode;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        osc1 = audioCtx.createOscillator();
+        osc2 = audioCtx.createOscillator();
+        gainNode = audioCtx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(110, audioCtx.currentTime);
+
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(164.81, audioCtx.currentTime);
+
+        gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+      }
+    }
+
+    const audioToggleBtn = document.getElementById('audioToggleBtn');
+    const audioOffIcon = document.getElementById('audioOffIcon');
+    const audioOnIcon = document.getElementById('audioOnIcon');
+    const synthFreqSlider = document.getElementById('synthFreqSlider');
+    const synthFreqDisplay = document.getElementById('synthFreqDisplay');
+
+    audioToggleBtn.addEventListener('click', () => {
+      initAudio();
+      if (!isPlayingAudio) {
+        audioCtx.resume();
+        gainNode.gain.setTargetAtTime(0.04, audioCtx.currentTime, 0.1);
+        isPlayingAudio = true;
+        audioOffIcon.classList.add('hidden');
+        audioOnIcon.classList.remove('hidden');
+      } else {
+        gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+        isPlayingAudio = false;
+        audioOffIcon.classList.remove('hidden');
+        audioOnIcon.classList.add('hidden');
+      }
+    });
+
+    synthFreqSlider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      synthFreqDisplay.textContent = `${val} Hz`;
+      if (osc1 && audioCtx) {
+        osc1.frequency.setTargetAtTime(val, audioCtx.currentTime, 0.1);
+        osc2.frequency.setTargetAtTime(val * 1.498, audioCtx.currentTime, 0.1);
+      }
+    });
+
+    /* ==========================================================================
+       INFOGRAPHIC MATRIX DATA & CARDS
+       ========================================================================== */
+    const matrixCardData = [
+      { id: 'THC', name: 'THC', type: 'Intoxicating', intoxPct: 95, cb1Pct: 90, cb2Pct: 45, focus: 'Euphoria, Pain, Appetite' },
+      { id: 'CBD', name: 'CBD', type: 'Non-Intoxicating', intoxPct: 0, cb1Pct: 15, cb2Pct: 75, focus: 'Anxiety, Seizures, Inflammation' },
+      { id: 'CBG', name: 'CBG', type: 'Stem Precursor', intoxPct: 0, cb1Pct: 30, cb2Pct: 80, focus: 'Focus, Gut Health, Antibacterial' },
+      { id: 'CBN', name: 'CBN', type: 'Aged / Oxidized', intoxPct: 20, cb1Pct: 35, cb2Pct: 65, focus: 'Sedation, Sleep Support' },
+      { id: 'THCV', name: 'THCV', type: 'Varin Cannabinoid', intoxPct: 40, cb1Pct: 50, cb2Pct: 40, focus: 'Energy, Appetite Control' },
+      { id: 'CBC', name: 'CBC', type: 'Synergy Component', intoxPct: 0, cb1Pct: 10, cb2Pct: 70, focus: 'Pain Signaling, Tissue Repair' }
+    ];
+
+    const matrixGrid = document.getElementById('infographicMatrixCards');
+
+    function renderInfographicMatrix() {
+      matrixGrid.innerHTML = '';
+      matrixCardData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'p-3.5 rounded-2xl bg-slate-900/80 border border-white/10 hover:border-sky-400/40 transition-all space-y-2';
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+            <div>
+              <h4 class="font-black text-white text-sm">${item.name}</h4>
+              <span class="text-[10px] text-slate-400 font-mono">${item.type}</span>
+            </div>
+            <button data-term="${item.id}" class="gloss-term text-xs font-bold">Details &rarr;</button>
+          </div>
+
+          <div class="space-y-1.5 text-xs font-mono">
+            <div>
+              <div class="flex justify-between text-[10px] text-slate-300">
+                <span>Intoxication</span>
+                <span class="font-bold text-amber-400">${item.intoxPct}%</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-400" style="width: ${item.intoxPct}%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[10px] text-slate-300">
+                <span>CB1 Affinity</span>
+                <span class="font-bold text-sky-400">${item.cb1Pct}%</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-sky-400" style="width: ${item.cb1Pct}%"></div>
+              </div>
+            </div>
+          </div>
+        `;
+        matrixGrid.appendChild(card);
+      });
+    }
+    renderInfographicMatrix();
+
+    /* ==========================================================================
+       DECARBOXYLATION SLIDER LOGIC
+       ========================================================================== */
+    const decarbSlider = document.getElementById('decarbTempSlider');
+    const tempDisplay = document.getElementById('tempValueDisplay');
+    const statusBox = document.getElementById('decarbStatusBox');
+    const statusTitle = document.getElementById('decarbStatusTitle');
+    const statusDesc = document.getElementById('decarbStatusDesc');
+    const percentBadge = document.getElementById('decarbPercentBadge');
+
+    const thcaBar = document.getElementById('thcaBar');
+    const thcBar = document.getElementById('thcBar');
+    const cbnBar = document.getElementById('cbnBar');
+
+    const thcaVal = document.getElementById('thcaBarVal');
+    const thcVal = document.getElementById('thcBarVal');
+    const cbnVal = document.getElementById('cbnBarVal');
+
+    decarbSlider.addEventListener('input', (e) => {
+      const temp = parseInt(e.target.value);
+      const cel = Math.round((temp - 32) * (5/9));
+      tempDisplay.textContent = `${temp}°F (${cel}°C)`;
+
+      if (temp < 180) {
+        const activePct = Math.round(((temp - 70) / 110) * 20);
+        const rawPct = 100 - activePct;
+        thcaBar.style.width = `${rawPct}%`;
+        thcBar.style.width = `${activePct}%`;
+        cbnBar.style.width = `0%`;
+        thcaVal.textContent = `${rawPct}%`;
+        thcVal.textContent = `${activePct}%`;
+        cbnVal.textContent = `0%`;
+        statusTitle.textContent = '🌿 Raw Acidic State (THCA / CBDA)';
+        percentBadge.textContent = 'Raw Precursor';
+        statusDesc.textContent = 'Minimal heat applied. Cannabinoids retain their carboxyl group (-COOH). Non-intoxicating.';
+      } else if (temp >= 180 && temp <= 255) {
+        const activePct = Math.min(99, 20 + Math.round(((temp - 180) / 75) * 79));
+        const rawPct = 100 - activePct;
+        thcaBar.style.width = `${rawPct}%`;
+        thcBar.style.width = `${activePct}%`;
+        cbnBar.style.width = `0%`;
+        thcaVal.textContent = `${rawPct}%`;
+        thcVal.textContent = `${activePct}%`;
+        cbnVal.textContent = `0%`;
+        statusTitle.textContent = '🔥 Optimal Decarboxylation Window';
+        percentBadge.textContent = `${activePct}% Converted`;
+        statusDesc.textContent = 'Ideal thermal window (220°F-240°F). Carbon dioxide (CO₂) boils off, converting THCA into active, bioavailable THC.';
+      } else {
+        const cbnPct = Math.min(70, Math.round(((temp - 255) / 65) * 70));
+        const thcPct = 100 - cbnPct;
+        thcaBar.style.width = `0%`;
+        thcBar.style.width = `${thcPct}%`;
+        cbnBar.style.width = `${cbnPct}%`;
+        thcaVal.textContent = `0%`;
+        thcVal.textContent = `${thcPct}%`;
+        cbnVal.textContent = `${cbnPct}%`;
+        statusTitle.textContent = '⚠️ Excessive Heat Degradation';
+        percentBadge.textContent = 'Terpenes Boiling Off';
+        statusDesc.textContent = 'Temperature exceeds safe thresholds. Volatile terpenes evaporate rapidly and THC oxidizes into mildly psychoactive CBN.';
+      }
+    });
+
+    /* ==========================================================================
+       LEVEL 2: PHARMACOKINETICS ROUTE SIMULATOR LOGIC
+       ========================================================================== */
+    const routeData = {
+      inhalation: {
+        name: '💨 Inhalation Pathway',
+        onset: 'Onset: 1-5 Mins',
+        desc: 'Cannabinoids enter pulmonary capillaries directly into systemic arterial blood. Bypasses first-pass liver metabolism, yielding rapid high plasma concentration spikes.',
+        peak: '10-15 Mins',
+        duration: '2-4 Hours',
+        metabolite: 'Delta-9-THC',
+        bioavail: '10-35%',
+        pathD: 'M 0 140 Q 20 10, 80 50 T 400 140',
+        color: '#38bdf8'
+      },
+      edible: {
+        name: '🍬 Oral Edible (Ingestion)',
+        onset: 'Onset: 30-90 Mins',
+        desc: 'Digested through stomach & intestines, absorbed via hepatic portal vein into the liver. CYP2C9 enzymes convert Delta-9-THC into highly potent 11-Hydroxy-THC.',
+        peak: '2-3 Hours',
+        duration: '6-8+ Hours',
+        metabolite: '11-Hydroxy-THC',
+        bioavail: '4-20%',
+        pathD: 'M 0 140 Q 120 135, 180 30 T 400 130',
+        color: '#34d399'
+      },
+      sublingual: {
+        name: '💧 Sublingual Tincture',
+        onset: 'Onset: 15-30 Mins',
+        desc: 'Absorbed through oral mucous membranes under the tongue into cranial veins, bypassing stomach acids while offering smooth, steady plasma levels.',
+        peak: '45-60 Mins',
+        duration: '4-6 Hours',
+        metabolite: 'Mixed Delta-9/11-OH',
+        bioavail: '20-35%',
+        pathD: 'M 0 140 Q 60 40, 120 60 T 400 135',
+        color: '#818cf8'
+      },
+      topical: {
+        name: '🧴 Topical Transdermal',
+        onset: 'Onset: 15-45 Mins',
+        desc: 'Binds peripheral CB2 receptors localized in skin & muscle tissue. Extremely low systemic blood absorption; non-psychoactive target.',
+        peak: '1-2 Hours',
+        duration: '3-5 Hours',
+        metabolite: 'Localized Target',
+        bioavail: '< 1% Systemic',
+        pathD: 'M 0 140 Q 100 125, 200 120 T 400 138',
+        color: '#fbbf24'
+      }
+    };
+
+    const routeBtns = document.querySelectorAll('.route-btn');
+    const plasmaCurvePath = document.getElementById('plasmaCurvePath');
+
+    routeBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        routeBtns.forEach(b => b.className = 'route-btn p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs text-left');
+        const clicked = e.currentTarget;
+        clicked.className = 'route-btn p-3 rounded-2xl bg-sky-500/20 border-2 border-sky-400 text-sky-300 font-bold text-xs text-left';
+
+        const routeKey = clicked.dataset.route;
+        const info = routeData[routeKey];
+
+        document.getElementById('routeNameDisplay').textContent = info.name;
+        document.getElementById('routeOnsetBadge').textContent = info.onset;
+        document.getElementById('routeDescDisplay').textContent = info.desc;
+        document.getElementById('routePeakDisplay').textContent = info.peak;
+        document.getElementById('routeDurationDisplay').textContent = info.duration;
+        document.getElementById('routeMetaboliteDisplay').textContent = info.metabolite;
+        document.getElementById('routeBioavailDisplay').textContent = info.bioavail;
+
+        plasmaCurvePath.setAttribute('d', info.pathD);
+        plasmaCurvePath.setAttribute('stroke', info.color);
+      });
+    });
+
+    /* ==========================================================================
+       LEVEL 3: TERPENE SYNERGY LOGIC
+       ========================================================================== */
+    const terpeneData = {
+      myrcene: {
+        title: 'Myrcene • Herbal & Earthy',
+        boil: '334°F (168°C)',
+        desc: 'Enhances blood-brain barrier permeability, allowing cannabinoids like THC to cross more rapidly into brain tissue.',
+        synergy: 'Combined with THC, Myrcene amplifies motor relaxation and sedating couch-lock properties.'
+      },
+      caryophyllene: {
+        title: 'Beta-Caryophyllene • Peppery & Woody',
+        boil: '266°F (130°C)',
+        desc: 'Unique dietary terpene that acts directly as a full CB2 receptor agonist without mental intoxication.',
+        synergy: 'Directly downregulates inflammatory cytokine production (TNF-α) alongside CBD.'
+      },
+      limonene: {
+        title: 'Limonene • Citrus & Elevating',
+        boil: '349°F (176°C)',
+        desc: 'Highly volatile terpene that modulates serotonin (5-HT1A) receptor activity.',
+        synergy: 'Synergizes with CBD and THC to elevate mood and reduce stress response.'
+      },
+      linalool: {
+        title: 'Linalool • Lavender & Floral',
+        boil: '388°F (198°C)',
+        desc: 'Modulates GABAergic neurotransmission, promoting neural calming and muscle relaxation.',
+        synergy: 'Complements CBD and CBN for enhanced sleep quality and stress mitigation.'
+      },
+      pinene: {
+        title: 'Alpha-Pinene • Fresh Pine',
+        boil: '311°F (155°C)',
+        desc: 'Natural acetylcholinesterase (AChE) inhibitor that helps protect memory neurotransmitters.',
+        synergy: 'Offsets short-term memory impairment caused by high-dose THC binding at CB1.'
+      }
+    };
+
+    const terpBtns = document.querySelectorAll('.terp-btn');
+    terpBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        terpBtns.forEach(b => b.className = 'terp-btn w-full p-3.5 rounded-2xl bg-slate-900 border border-white/10 hover:border-emerald-400 text-slate-300 font-bold text-xs flex justify-between items-center transition-all');
+        const clicked = e.currentTarget;
+        clicked.className = 'terp-btn w-full p-3.5 rounded-2xl bg-amber-500/20 border-2 border-amber-400 text-amber-300 font-bold text-xs flex justify-between items-center transition-all';
+
+        const data = terpeneData[clicked.dataset.terp];
+        document.getElementById('terpNameTitle').textContent = data.title;
+        document.getElementById('terpBoilDisplay').textContent = `Boiling Point: ${data.boil}`;
+        document.getElementById('terpBioDesc').textContent = data.desc;
+        document.getElementById('terpSynergyText').textContent = data.synergy;
+      });
+    });
+
+    /* ==========================================================================
+       LEVEL 4: CYP450 DRUG CHECKER LOGIC
+       ========================================================================== */
+    const drugData = {
+      warfarin: {
+        title: '⚠️ Warfarin & Blood Thinners',
+        level: 'High Interaction Risk',
+        desc: 'CBD competitively inhibits CYP2C9 enzymes responsible for breaking down Warfarin. This slows clearance, leading to elevated blood concentrations and increased internal bleeding risk.'
+      },
+      clobazam: {
+        title: '⚠️ Clobazam & Anti-Epileptics',
+        level: 'Moderate / High Risk',
+        desc: 'CBD inhibits CYP19 and CYP3A4 enzymes, raising active N-desmethylclobazam serum levels by 3-fold. Requires clinical dose adjustment.'
+      },
+      ssri: {
+        title: '⚠️ Sertraline & SSRI Antidepressants',
+        level: 'Moderate Risk',
+        desc: 'Both CBD and THC utilize CYP2C19. Competition can elevate SSRI plasma concentration, potentially worsening side effects like dizziness.'
+      },
+      statin: {
+        title: '⚠️ Statins & Blood Pressure Drugs',
+        level: 'Moderate Risk',
+        desc: 'CYP3A4 inhibition by high-dose oral CBD can decrease statin breakdown, slightly raising the risk of muscle soreness (rhabdomyolysis).'
+      },
+      sedative: {
+        title: '⚠️ Benzodiazepines & Sedatives',
+        level: 'High Sedation Risk',
+        desc: 'Co-administration amplifies CNS depression and motor sedation through dual GABAergic and CB1 receptor pathways.'
+      }
+    };
+
+    const drugSelect = document.getElementById('drugCheckerSelect');
+    drugSelect.addEventListener('change', (e) => {
+      const info = drugData[e.target.value];
+      document.getElementById('drugRiskTitle').textContent = info.title;
+      document.getElementById('drugRiskLevel').textContent = info.level;
+      document.getElementById('drugRiskDesc').innerHTML = info.desc;
+    });
+
+    /* ==========================================================================
+       RICH MODALS & GLOSSARY DATA
+       ========================================================================== */
+    const richConceptData = {
+      cb1: {
+        title: '🧠 CB1 Neural Receptors & Brain Signaling',
+        catLabel: 'Deep Neurological Map',
+        tagBg: 'bg-sky-500/20 text-sky-300 border border-sky-400/30',
+        tabs: [
+          { id: 'overview', name: 'Neuro-Anatomy' },
+          { id: 'mechanism', name: 'Synaptic Mechanism' }
+        ],
+        content: {
+          overview: `
+            <div class="space-y-3 text-xs">
+              <p>CB1 receptors are GPCRs densely distributed across executive and motor brain regions:</p>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/20">
+                  <strong class="text-sky-300 block font-bold mb-0.5">Cerebral Cortex & Hippocampus</strong>
+                  Governs executive function, sensory perception, and memory.
+                </div>
+                <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/20">
+                  <strong class="text-sky-300 block font-bold mb-0.5">Cerebellum & Basal Ganglia</strong>
+                  Coordinates fine motor movement and spatial balance.
+                </div>
+              </div>
+            </div>
+          `,
+          mechanism: `
+            <div class="p-3 rounded-xl bg-slate-900 text-xs text-slate-300 space-y-2">
+              <strong class="text-sky-300 font-bold">Retrograde Transmission:</strong> Endocannabinoids travel backward across synapses from postsynaptic to presynaptic terminals, acting as biological circuit breakers to modulate glutamate and GABA release.
+            </div>
+          `
+        }
+      },
+      cb2: {
+        title: '🛡️ CB2 Immune Pathways & Peripheral Sentinel',
+        catLabel: 'Immunology Map',
+        tagBg: 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30',
+        tabs: [
+          { id: 'overview', name: 'Immune Distribution' }
+        ],
+        content: {
+          overview: `
+            <div class="p-3 rounded-xl bg-slate-900 text-xs text-emerald-200 space-y-2">
+              Non-intoxicating receptor target expressed primarily on spleen cells, white blood cells, and microglia. Modulates systemic inflammatory response without mental intoxication.
+            </div>
+          `
+        }
+      },
+      phyto: {
+        title: '🌿 Phytocannabinoids Enzymatic Pathway',
+        catLabel: 'Botanical Biochemistry',
+        tagBg: 'bg-indigo-500/20 text-indigo-300 border border-indigo-400/30',
+        tabs: [
+          { id: 'path', name: 'Synthesis Pathway' }
+        ],
+        content: {
+          path: `
+            <div class="p-4 rounded-xl bg-slate-900 text-xs font-mono text-center border border-indigo-500/30 space-y-2">
+              <div class="text-amber-300 font-bold">CBGA (Mother Precursor)</div>
+              <div class="text-slate-500">↓ Enzymatic Synthase</div>
+              <div class="grid grid-cols-3 gap-1">
+                <span class="p-1 rounded bg-sky-500/20 text-sky-300">THCA</span>
+                <span class="p-1 rounded bg-emerald-500/20 text-emerald-300">CBDA</span>
+                <span class="p-1 rounded bg-indigo-500/20 text-indigo-300">CBCA</span>
+              </div>
+            </div>
+          `
+        }
+      },
+      decarb: {
+        title: '⚡ Decarboxylation Chemistry',
+        catLabel: 'Thermal Dynamics',
+        tagBg: 'bg-amber-500/20 text-amber-300 border border-amber-400/30',
+        tabs: [
+          { id: 'chem', name: 'Reaction Formula' }
+        ],
+        content: {
+          chem: `
+            <div class="p-4 rounded-xl bg-slate-900 text-xs font-mono text-center border border-amber-400/30">
+              THCA ($C_{22}H_{30}O_4$) ── Heat ──▶ THC ($C_{21}H_{30}O_2$) + CO₂ ↑
+            </div>
+          `
+        }
+      }
+    };
+
+    const glossaryData = {
+      ECS: { title: 'Endocannabinoid System (ECS)', category: 'receptors', catLabel: 'System Architecture', body: 'A master biological signaling network maintaining internal homeostasis across sleep, mood, appetite, and pain.' },
+      phytocannabinoids: { title: 'Phytocannabinoids', category: 'plant', catLabel: 'Plant-Derived', body: 'Botanical compounds synthesized inside cannabis trichomes, such as THC, CBD, CBG, CBC, and CBN.' },
+      endocannabinoids: { title: 'Endocannabinoids', category: 'body', catLabel: 'Body-Made', body: 'Lipid neurotransmitters manufactured internally on demand by human tissue (e.g. Anandamide & 2-AG).' },
+      THC: { title: 'THC (Delta-9-Tetrahydrocannabinol)', category: 'plant', catLabel: 'Plant-Derived', body: 'Primary intoxicating cannabinoid binding CB1 neural receptors.' },
+      CBD: { title: 'CBD (Cannabidiol)', category: 'plant', catLabel: 'Plant-Derived', body: 'Major non-intoxicating cannabinoid studied for anti-seizure, anxiety, and anti-inflammatory properties.' },
+      CBG: { title: 'CBG (Cannabigerol)', category: 'plant', catLabel: 'Plant-Derived', body: 'The stem cell precursor of major cannabinoids, studied for antibacterial and gut health.' },
+      CBN: { title: 'CBN (Cannabinol)', category: 'plant', catLabel: 'Plant-Derived', body: 'Mildly psychoactive breakdown product formed when THC oxidizes over time.' },
+      anandamide: { title: 'Anandamide (AEA)', category: 'body', catLabel: 'Body-Made', body: 'Nicknamed the "bliss molecule", an internal endocannabinoid regulating mood and pain.' }
+    };
+
+    /* ==========================================================================
+       GLOSSARY RENDER & SEARCH
+       ========================================================================== */
+    const glossaryGrid = document.getElementById('glossaryGrid');
+    const searchInput = document.getElementById('glossarySearchInput');
+    let activeCat = 'all';
+
+    function renderGlossary() {
+      glossaryGrid.innerHTML = '';
+      const query = searchInput.value.toLowerCase().trim();
+
+      Object.keys(glossaryData).forEach(key => {
+        const item = glossaryData[key];
+        const matchesCat = (activeCat === 'all' || item.category === activeCat);
+        const matchesQuery = item.title.toLowerCase().includes(query) || item.body.toLowerCase().includes(query);
+
+        if (matchesCat && matchesQuery) {
+          const card = document.createElement('div');
+          card.className = 'p-3 rounded-2xl bg-slate-900/80 border border-white/10 space-y-1';
+          card.innerHTML = `
+            <span class="text-[9px] font-bold uppercase tracking-wider text-sky-400 block">${item.catLabel}</span>
+            <button data-term="${key}" class="gloss-term text-xs font-bold text-left">${item.title}</button>
+            <p class="text-[11px] text-slate-300 mt-1 line-clamp-2">${item.body}</p>
+          `;
+          glossaryGrid.appendChild(card);
+        }
+      });
+    }
+    renderGlossary();
+    searchInput.addEventListener('input', renderGlossary);
+
+    document.querySelectorAll('.gloss-cat-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.gloss-cat-btn').forEach(b => b.className = 'gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-slate-200');
+        e.target.className = 'gloss-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30';
+        activeCat = e.target.dataset.cat;
+        renderGlossary();
+      });
+    });
+
+    /* ==========================================================================
+       MODAL CONTROLLER
+       ========================================================================== */
+    const modal = document.getElementById('glossaryModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalCatTag = document.getElementById('modalCategoryTag');
+    const modalTabs = document.getElementById('modalTabs');
+
+    function openModal(termKey) {
+      if (richConceptData[termKey]) {
+        const concept = richConceptData[termKey];
+        modalTitle.textContent = concept.title;
+        modalCatTag.textContent = concept.catLabel;
+        modalCatTag.className = `px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider mb-2 inline-block ${concept.tagBg}`;
+
+        modalTabs.classList.remove('hidden');
+        modalTabs.innerHTML = '';
+        concept.tabs.forEach((tab, idx) => {
+          const tabBtn = document.createElement('button');
+          tabBtn.className = `px-3 py-1 rounded-t-lg text-xs ${idx === 0 ? 'bg-white/10 text-white border-b-2 border-sky-400 font-bold' : 'text-slate-400'}`;
+          tabBtn.textContent = tab.name;
+          tabBtn.addEventListener('click', () => {
+            document.querySelectorAll('#modalTabs button').forEach(b => b.className = 'px-3 py-1 rounded-t-lg text-xs text-slate-400');
+            tabBtn.className = 'px-3 py-1 rounded-t-lg text-xs bg-white/10 text-white border-b-2 border-sky-400 font-bold';
+            modalBody.innerHTML = concept.content[tab.id];
+          });
+          modalTabs.appendChild(tabBtn);
+        });
+
+        modalBody.innerHTML = concept.content[concept.tabs[0].id];
+      } else if (glossaryData[termKey]) {
+        const item = glossaryData[termKey];
+        modalTabs.classList.add('hidden');
+        modalTitle.textContent = item.title;
+        modalCatTag.textContent = item.catLabel;
+        modalCatTag.className = 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 text-[11px] font-bold uppercase tracking-wider mb-2 inline-block';
+        modalBody.innerHTML = `<p>${item.body}</p>`;
+      } else {
+        return;
+      }
+
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.addEventListener('click', (e) => {
+      const richBtn = e.target.closest('[data-rich-concept]');
+      if (richBtn) {
+        openModal(richBtn.dataset.richConcept);
+        return;
+      }
+
+      const termBtn = e.target.closest('[data-term]');
+      if (termBtn) {
+        openModal(termBtn.dataset.term);
+        return;
+      }
+
+      if (e.target === modal) closeModal();
+    });
+
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('modalGotItBtn').addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    /* ==========================================================================
+       PROGRESS BAR & TOOLBAR LOGIC
+       ========================================================================== */
+    window.addEventListener('scroll', () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      document.getElementById('progressBar').style.width = `${progress}%`;
+    });
+
+    const controlsMenu = document.getElementById('controlsMenu');
+    document.getElementById('openControlsBtn').addEventListener('click', () => controlsMenu.classList.toggle('hidden'));
+    document.getElementById('closeControlsBtn').addEventListener('click', () => controlsMenu.classList.add('hidden'));
+
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.body.classList.remove('theme-forest', 'theme-emerald');
+        const theme = e.target.dataset.theme;
+        if (theme === 'forest') document.body.classList.add('theme-forest');
+        if (theme === 'emerald') document.body.classList.add('theme-emerald');
+      });
+    });
+
+    const mainContent = document.getElementById('mainContent');
+    document.getElementById('fontSm').addEventListener('click', () => mainContent.style.fontSize = '0.9rem');
+    document.getElementById('fontMd').addEventListener('click', () => mainContent.style.fontSize = '1rem');
+    document.getElementById('fontLg').addEventListener('click', () => mainContent.style.fontSize = '1.1rem');
+
+    const toggleParticlesBtn = document.getElementById('toggleParticlesBtn');
+    toggleParticlesBtn.addEventListener('click', () => {
+      particlesEnabled = !particlesEnabled;
+      toggleParticlesBtn.textContent = particlesEnabled ? 'ON' : 'OFF';
+    });
+
+    /* ==========================================================================
+       QUIZ LOGIC
+       ========================================================================== */
+    document.querySelectorAll('.quiz-q').forEach(qEl => {
+      const correctIdx = parseInt(qEl.dataset.correct);
+      const feedbackEl = qEl.querySelector('.quiz-feedback');
+      const options = qEl.querySelectorAll('.quiz-opt');
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const selectedIdx = parseInt(opt.dataset.idx);
+          feedbackEl.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300', 'bg-rose-500/20', 'text-rose-300');
+
+          if (selectedIdx === correctIdx) {
+            opt.className = 'quiz-opt text-left text-xs p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold';
+            feedbackEl.classList.add('bg-emerald-500/20', 'text-emerald-300');
+            feedbackEl.textContent = '✓ Correct! Excellent mastery.';
+          } else {
+            opt.className = 'quiz-opt text-left text-xs p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 font-bold';
+            feedbackEl.classList.add('bg-rose-500/20', 'text-rose-300');
+            feedbackEl.textContent = '✕ Incorrect. Review the module section above.';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
