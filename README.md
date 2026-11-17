@@ -19,7 +19,7 @@ Live site: https://t3riah.github.io/cannabinoids-101/
 - Interactive ECS body hotspot map, phytocannabinoid matrix, decarboxylation
   temperature gauge, plasma-concentration route simulator, terpene selector,
   CYP450 drug checker
-- Searchable glossary, rich-concept modals, 2-question checkpoint quiz
+- Searchable glossary (10 terms), rich-concept modals, 2-question checkpoint quiz
 - Atmosphere settings: visual themes, text scale, ambient synth tone,
   synapse canvas toggle
 
@@ -27,6 +27,3 @@ Live site: https://t3riah.github.io/cannabinoids-101/
 
 - Educational content only. The drug-interaction checker is a general
   educational reference, not medical advice.
-- Known minor gap (as published): the Details buttons on the THCV and CBC
-  matrix cards open no modal, as those two compounds have no glossary entry
-  in the file yet.
